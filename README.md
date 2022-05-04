@@ -1,6 +1,8 @@
 #  DMM-quick-start-classification
 Repo with template files for setting up DMM demos in Domino 4.6
 
+source: https://dominodatalab.atlassian.net/wiki/spaces/salesengineering/pages/2088075277/Domino+Model+Monitor+DMM+Demo+Set+Up
+
 ```
 {
     "variables": [
