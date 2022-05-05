@@ -1,5 +1,36 @@
 # upload to S3
  
+    
+import boto3
+from botocore.exceptions import NoCredentialsError
+import os
+import numpy as np
+from datetime import date
+import certs   
+    
+#passing env var to python variables
+domino_user = os.getenv('DOMINO_STARTING_USERNAME')
+domino_project = os.getenv('DOMINO_PROJECT_NAME')
+
+
+def upload(local_file, bucket):
+    s3 = boto3.client('s3', aws_access_key_id=certs.AWS_ACCESS_KEY_ID ,
+                      aws_secret_access_key=certs.AWS_SECRET_ACCESS_KEY)
+    
+    s3_file_name = '{}'.format(os.path.basename(local_file))
+    
+    try:
+        s3.upload_file(local_file, bucket, s3_file_name, ExtraArgs={'ACL':'public-read'})
+        print(str(s3_file_name) + " Upload Successful")
+        return True
+    except FileNotFoundError:
+        print("The file was not found")
+        return False
+    except NoCredentialsError:
+        print("Credentials not available")
+        return False
+
+"""
 import boto3
 from botocore.exceptions import NoCredentialsError
 import os
@@ -10,7 +41,10 @@ from datetime import date
 domino_user = os.getenv('DOMINO_STARTING_USERNAME')
 domino_project = os.getenv('DOMINO_PROJECT_NAME')
 
- 
+
+
+
+
 def upload(local_file, bucket):
     s3 = boto3.client('s3', aws_access_key_id=os.environ['AWS_ACCESS_KEY_ID'],
                       aws_secret_access_key=os.environ['AWS_SECRET_ACCESS_KEY'])
@@ -27,7 +61,7 @@ def upload(local_file, bucket):
     except NoCredentialsError:
         print("Credentials not available")
         return False
-
+"""
 ## NOT using or updating the below function (updated 10/12/2021)
 # def split_data_export(df,n,prefix):
 #     arrays = np.array_split(df,n)
